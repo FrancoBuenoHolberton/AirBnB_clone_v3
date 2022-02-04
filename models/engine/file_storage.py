@@ -82,6 +82,6 @@ class FileStorage:
         """Returns the number of objects in storage"""
 
         if cls not in classes.values():
-            return 0
+            return
 
         return len(self.all(cls))
