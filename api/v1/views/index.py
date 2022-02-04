@@ -17,6 +17,7 @@ def status():
     """ Return Json Status """
     return {"status": "OK"}
 
+
 @app_views.route('/stats')
 def stats():
     """ Stats """
