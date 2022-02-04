@@ -66,33 +66,22 @@ class FileStorage:
                 del self.__objects[key]
 
     def close(self):
-        """call reload() method for deserializing the JSON file to objects"""
-        self.reload()
-
-<<<<<<< HEAD
-    def get(self, cls, id):
-        """method to count the number of objects in storage"""
-        if cls and id:
-            obj = "{}.{}".format(cls, id)
-            objsall = self.all(cls)
-            return objsall.get(obj)
-        return None
-
-    def count(self, cls=None):
-        """return count of obj"""
-=======
-    def close(self):
         """call remove() method on the private session attribute"""
         self.__session.remove()
 
     def get(self, cls, id):
         """retrieve one object"""
-        obj = "{}.{}".format(cls, id)
-        allobjs = self.all(cls)
-        return allobjs.get(obj)
-    return None
+        if cls and id:
+            objects = "{}.{}".format(cls, id)
+            return self.__objects[objects]
 
     def count(self, cls=None):
         """Returns the number of objects in storage"""
->>>>>>> 8f356695f00d9917945bc9f33fea6d72253a1d82
-        return (len(self.all(cls)))
+        c = 0
+        if cls:
+            for i in self.__objects.values():
+                if cls in i:
+                    c += 1
+            return c
+        return len(self.__objects)
+            
