@@ -20,5 +20,5 @@ def status():
 @app_views.route('/stats')
 def stats():
     """ Stats """
-    json = {"amenities": storage.count(Amenity)}
+    json = {"amenities": "storage.count(Amenity)"}
     return json
