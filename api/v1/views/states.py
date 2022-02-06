@@ -3,8 +3,9 @@
 
 from api.v1.views import app_views
 from models.state import State
+from models.city import City
 from models import storage
-from flask import jsonify, abort, request, make_response
+from flask import Flask, jsonify, abort, request, make_response
 
 
 @app_views.route('/states', methods=['GET'], strict_slashes=False)
@@ -12,10 +13,10 @@ def all_states():
     """Retrieves the list of all
     state objects: GET /api/v1/states"""
 
-    sta = storage.all(State)
-    ls = []
+    if request.method == 'GET':
 
-    for sta in states.values():
+    ls = []
+    for sta in storage.all(state).values():
         ls.append(sta.to_dict())
 
     return jsonify(ls)
