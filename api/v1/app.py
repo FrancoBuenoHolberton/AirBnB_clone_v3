@@ -19,6 +19,13 @@ def teardown_appcontext(self):
     storage.close()
 
 
+@app.errorhandler(404)
+def error_404(err):
+    """return eror 404"""
+
+    return {"error": "Not found"}, 404
+
+
 if __name__ == '__main__':
     if getenv('HBNB_API_HOST'):
         host = getenv('HBNB_API_HOST')
