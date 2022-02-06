@@ -15,11 +15,11 @@ def all_states():
 
     if request.method == 'GET':
 
-    ls = []
-    for sta in storage.all(state).values():
-        ls.append(sta.to_dict())
+        ls = []
+        for sta in storage.all(state).values():
+            ls.append(sta.to_dict())
 
-    return jsonify(ls)
+        return jsonify(ls)
 
 
 @app_views.route('/states/<string:state_id>', methods=['GET'], strict_slashes=False)
