@@ -10,7 +10,8 @@ from models import storage
 from flask import jsonify, abort, request, make_response
 
 
-@app_views.route('/cities/<string:city_id>/places', methods=['GET'], strict_slashes=False)
+@app_views.route('/cities/<string:city_id>/places',
+                 methods=['GET'], strict_slashes=False)
 def all_places(city_id):
     """ list all places """
 
@@ -25,7 +26,8 @@ def all_places(city_id):
     return jsonify(ls)
 
 
-@app_views.route('/places/<string:place_id>', methods=['GET'], strict_slashes=False)
+@app_views.route('/places/<string:place_id>',
+                 methods=['GET'], strict_slashes=False)
 def get_place(place_id):
     """ retrive a place """
 
@@ -51,7 +53,8 @@ def delete_place(place_id):
     return jsonify({})
 
 
-@app_views.route('/cities/<string:city_id>/places', methods=['POST'], strict_slashes=False)
+@app_views.route('/cities/<string:city_id>/places',
+                 methods=['POST'], strict_slashes=False)
 def create_place(city_id):
     """create placq """
 
