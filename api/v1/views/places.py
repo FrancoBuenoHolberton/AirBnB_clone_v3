@@ -39,7 +39,8 @@ def get_place(place_id):
     return jsonify(pl.to_dict())
 
 
-@app_views.route('/places/<string:place_id>', methods=['DELETE'], strict_slashes=False)
+@app_views.route('/places/<string:place_id>',
+                 methods=['DELETE'], strict_slashes=False)
 def delete_place(place_id):
     """ delete a place """
 
@@ -83,7 +84,8 @@ def create_place(city_id):
     return make_response(jsonify(pl.to_dict()), 201)
 
 
-@app_views.route('/places/<string:place_id>', methods=['PUT'], strict_slashes=False)
+@app_views.route('/places/<string:place_id>',
+                 methods=['PUT'], strict_slashes=False)
 def update_place(place_id):
     """ update place """
 
@@ -95,7 +97,8 @@ def update_place(place_id):
         abort(400, "Not a JSON")
 
     for key, val in request.get_json().items():
-        if (key not in ["id", "user_id", "city_id", "created_at", "updated_at"]):
+        if (key not in ["id", "user_id",
+                        "city_id", "created_at", "updated_at"]):
             setattr(pl, key, val)
 
     pl.save()
