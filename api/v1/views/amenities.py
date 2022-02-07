@@ -8,13 +8,11 @@ from models import storage
 from flask import jsonify, abort, request, make_response
 
 
-@app_views.route('/amenities', methods=['GET'], strict_slashes=False)
+@app_views.route('/amenities/', methods=['GET'], strict_slashes=False)
 def all_my_amenities():
     """ list of all Amenity objects: GET /api/v1/amenities """
-
-    am = storage.all(Amenity).values()
-
     if request.method == 'GET':
+        am = storage.all(Amenity).values()
         ls = []
         for key in am:
             ls.append(key.to_dict())
@@ -60,7 +58,7 @@ def create_amenity():
         if req_name('name') is None:
             return jsonify('Missing name'), 400
 
-        am = Amenity(**req)
+        am = Amenity(**req_name)
         am.save()
         return jsonify(am.to_dict()), 201
 
@@ -69,7 +67,6 @@ def create_amenity():
                  methods=['PUT'], strict_slashes=False)
 def update_amenity(amenity_id):
     """ update amenity """
-
     if request.method == 'PUT':
         am = storage.get(Amenity, amenity_id)
         req = request.headers.get('Content-Type')
