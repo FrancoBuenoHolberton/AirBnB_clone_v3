@@ -24,7 +24,7 @@ def all_my_amenities():
 
 @app_views.route('/amenities/<amenity_id>',
                  methods=['GET'], strict_slashes=False)
-def get_amenity(amenity_id):
+def get_amenity(amenity_id-):
     """ retrive amenity object """
 
     am = storage.get(Amenity, amenity_id)
