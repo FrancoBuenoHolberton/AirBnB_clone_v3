@@ -10,19 +10,18 @@ from flask import Flask, jsonify, abort, request, make_response
 import json
 
 
-@app_views.route('/states/<string:state_id>/cities', methods=['GET', 'POST'], strict_slashes=False)
+@app_views.route('/states/<state_id>/cities', methods=['GET', 'POST'], strict_slashes=False)
 def all_cities(state_id):
     """ List of all cities """
     stor = storage.get(State, state_id)
+    states_cities = []    
     if not stor:
         abort(404)
 
     if request.method == 'GET':
-        storage_city = stor.all('Cities').values()
-        states_cities = []
-        for citys in storage_city:
-            if city.state_id == state_id:
-                states_cities.append(city.to_dict())
+        storage_city = stor.all(City).values()
+        for citys in stor.cities:
+            states_cities.append(citys.to_dict())
     return jsonify(states_cities)
 
 @app_views.route('/cities/<string:city_id>', methods=['GET'], strict_slashes=False)
@@ -48,7 +47,7 @@ def delete_city_id(city_id):
 
     ct.delete()
     storage.save()
-    return jsonify({})
+    return jsonify(({}), 200)
 
 
 @app_views.route('/states/<string:state_id>/cities', methods=['POST'], strict_slashes=False)
