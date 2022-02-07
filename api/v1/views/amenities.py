@@ -58,7 +58,7 @@ def create_amenity():
             return jsonify('Not a JSON'), 400
 
         if req_name('name') is None:
-            return jsonify ('Missing name'), 400
+            return jsonify('Missing name'), 400
 
         am = Amenity(**req)
         am.save()
