@@ -12,14 +12,13 @@ from flask import Flask, jsonify, abort, request, make_response
 def all_users():
     """ list all user """
 
-    us = storage.all(User)
-    ls = []
+    if request.method == 'GET':
 
-    for us in users.values():
-        ls.append(us.to_dict())
+        ls = []
+        for user in storage.all(User).values():
+            ls.append(user.to_dict():
 
-    return jsonify(ls)
-
+        return jsonify(ls)
 
 @app_views.route('/users/<string:user_id>',
                  methods=['GET'], strict_slashes=False)
