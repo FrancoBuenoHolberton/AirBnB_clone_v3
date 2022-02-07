@@ -43,7 +43,7 @@ def delete_amenity_by_id(amenity_id):
     if am is None:
         abort(404)
 
-    am.delete()
+    storage.delete(am)
     storage.save()
     return jsonify({})
 
