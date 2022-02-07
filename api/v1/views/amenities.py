@@ -14,9 +14,10 @@ def all_my_amenities():
 
     am = storage.all(Amenity).values()
 
-    ls = []
-    for key in am:
-        ls.append(key.to_dict())
+    if request.method == 'GET':
+        ls = []
+        for key in am:
+            ls.append(key.to_dict())
 
     return jsonify(ls)
 
