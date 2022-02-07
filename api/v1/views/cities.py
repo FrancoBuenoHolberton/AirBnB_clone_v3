@@ -10,22 +10,20 @@ from flask import Flask, jsonify, abort, request, make_response
 import json
 
 
-@app_views.route('/states/<string:state_id>/cities', methods=['GET'], strict_slashes=False)
-def all_cities():
+@app_views.route('/states/<string:state_id>/cities', methods=['GET', 'POST'], strict_slashes=False)
+def all_cities(state_id):
     """ List of all cities """
-
-    storage = storage.get(State, state_id)
-
-    if (not storage):
+    stor = storage.get(State, state_id)
+    if not stor:
         abort(404)
 
-    req = []
-
-    for city in storage.cities:
-        req.append(city.to_dict())
-
-    return jsonify(req)
-
+    if request.method == 'GET':
+        storage_city = stor.all('Cities').values()
+        states_cities = []
+        for citys in storage_city:
+            if city.state_id == state_id:
+                states_cities.append(city.to_dict())
+    return jsonify(states_cities)
 
 @app_views.route('/cities/<string:city_id>', methods=['GET'], strict_slashes=False)
 def get_city(city_id):
