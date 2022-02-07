@@ -71,7 +71,7 @@ def update_amenity(amenity_id):
             return jsonify('Not a JSON'), 400
         req_name = request.get_json()
         if am is not None:
-            if 'name' in req_name:
+            if req_name('name') is None:
                 am.name = req_name['name']
                 am.save()
                 return jsonify(am.to_dict()), 200
