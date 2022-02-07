@@ -14,14 +14,14 @@ import json
 def all_cities():
     """ List of all cities """
 
-    sta = storage.get(State, state_id)
+    storage = storage.get(State, state_id)
 
-    if (not sta):
+    if (not storage):
         abort(404)
 
     req = []
 
-    for city in sta.cities:
+    for city in storage.cities:
         req.append(city.to_dict())
 
     return jsonify(req)
