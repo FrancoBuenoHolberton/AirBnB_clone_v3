@@ -19,7 +19,6 @@ def all_cities(state_id):
         abort(404)
 
     if request.method == 'GET':
-        storage_city = stor.all(City).values()
         for citys in stor.cities:
             states_cities.append(citys.to_dict())
     return jsonify(states_cities)
