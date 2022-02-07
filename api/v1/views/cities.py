@@ -10,11 +10,12 @@ from flask import Flask, jsonify, abort, request, make_response
 import json
 
 
-@app_views.route('/states/<state_id>/cities', methods=['GET', 'POST'], strict_slashes=False)
+@app_views.route('/states/<state_id>/cities', methods=['GET'],
+                 strict_slashes=False)
 def all_cities(state_id):
     """ List of all cities """
     stor = storage.get(State, state_id)
-    states_cities = []    
+    states_cities = []
     if not stor:
         abort(404)
 
@@ -23,7 +24,9 @@ def all_cities(state_id):
             states_cities.append(citys.to_dict())
     return jsonify(states_cities)
 
-@app_views.route('/cities/<string:city_id>', methods=['GET'], strict_slashes=False)
+
+@app_views.route('/cities/<string:city_id>', methods=['GET'],
+                 strict_slashes=False)
 def get_city(city_id):
     """ retrive a citie object """
 
@@ -35,7 +38,8 @@ def get_city(city_id):
     return jsonify(ct.to_dict())
 
 
-@app_views.route('/cities/<string:city_id>', methods=['DELETE'], strict_slashes=False)
+@app_views.route('/cities/<string:city_id>',
+                 methods=['DELETE'], strict_slashes=False)
 def delete_city_id(city_id):
     """ Delete a city object """
 
@@ -44,12 +48,13 @@ def delete_city_id(city_id):
     if ct is None:
         abort(404)
 
-    ct.delete()
+    storage.delete(ct)
     storage.save()
     return jsonify(({}), 200)
 
 
-@app_views.route('/states/<string:state_id>/cities', methods=['POST'], strict_slashes=False)
+@app_views.route('/states/<string:state_id>/cities',
+                 methods=['POST'], strict_slashes=False)
 def create_city(state_id):
     """ create city """
 
@@ -70,7 +75,8 @@ def create_city(state_id):
     return make_response(jsonify(ct.to_dict()), 201)
 
 
-@app_views.route('/cities/<string:city_id>', methods=['PUT'], strict_slashes=False)
+@app_views.route('/cities/<string:city_id>',
+                 methods=['PUT'], strict_slashes=False)
 def update_city(city_id):
     """update cities """
 
