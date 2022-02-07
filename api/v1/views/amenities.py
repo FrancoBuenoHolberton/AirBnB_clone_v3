@@ -12,10 +12,10 @@ from flask import jsonify, abort, request, make_response
 def all_my_amenities():
     """ list of all Amenity objects: GET /api/v1/amenities """
 
-    am = storage.all(Amenity)
+    am = storage.all(Amenity).values()
 
     ls = []
-    for key in am.values():
+    for key in am:
         ls.append(key.to_dict())
 
     return jsonify(ls)
