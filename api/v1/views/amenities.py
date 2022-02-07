@@ -75,7 +75,8 @@ def update_amenity(amenity_id):
         if amenity is None:
             abort(404)
 
-        if not request.get_json():
+    type_req = request.headers.get('Content-Type')
+    if type_req != 'application/json':
             abort(400, "Not a JSON")
 
         req = request.get_json()
