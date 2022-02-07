@@ -8,7 +8,7 @@ from models import storage
 from flask import Flask, jsonify, abort, request, make_response
 
 
-@app_views.route('/users', methods=['GET'], strict_slashes=False)
+@app_views.route('/users/', methods=['GET'], strict_slashes=False)
 def all_users():
     """ list all user """
 
@@ -16,11 +16,11 @@ def all_users():
 
         ls = []
         for user in storage.all(User).values():
-            ls.append(user.to_dict():
+            ls.append(user.to_dict())
 
         return jsonify(ls)
 
-@app_views.route('/users/<string:user_id>',
+@app_views.route('/users/<user_id>',
                  methods=['GET'], strict_slashes=False)
 def get_user_by_id(user_id):
     """ retrieve a user """
@@ -33,7 +33,7 @@ def get_user_by_id(user_id):
     return jsonify(us.to_dict())
 
 
-@app_views.route('/users/<string:user_id>',
+@app_views.route('/users/<user_id>',
                  methods=['DELETE'], strict_slashes=False)
 def delete_user(user_id):
     """ delete a user object """
@@ -48,7 +48,7 @@ def delete_user(user_id):
     return jsonify({})
 
 
-@app_views.route('/users', methods=['POST'], strict_slashes=False)
+@app_views.route('/users/', methods=['POST'], strict_slashes=False)
 def create_user():
     """ create user """
 
@@ -67,7 +67,7 @@ def create_user():
     return make_response(jsonify(us.to_dict()), 201)
 
 
-@app_views.route('/users/<string:user_id>',
+@app_views.route('/users/<user_id>',
                  methods=['PUT'], strict_slashes=False)
 def update_user(user_id):
     """ update User """
