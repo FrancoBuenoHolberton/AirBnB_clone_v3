@@ -95,7 +95,7 @@ def update_review(review_id):
 
     for key, val in req.items():
         if (key not in ["id", 'user_id', 'place_id',
-                         "created_at", "updated_at"]):
+                        "created_at", "updated_at"]):
             setattr(rev, key, val)
 
     re.save()
