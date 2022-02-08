@@ -63,13 +63,13 @@ def create_amenity():
 def update_amenity(amenity_id):
     """ update amenity """
     if request.method == 'PUT':
+        ign = ['id', 'created_at', 'update_at']
         am = storage.get(Amenity, amenity_id)
         req = request.headers.get('Content-Type')
         if req != 'application/json':
             return jsonify('Not a JSON'), 400
         req_name = request.get_json()
-        if am is not None:
-            am.name = req['name']
-            am.save()
-            return jsonify(am.to_dict()), 200
-        abort(404)
+        for key, value in req_name:
+            if key not in ign:
+                setattr(am, key, value)
+        return jsonify(am.to_dict()), 200
