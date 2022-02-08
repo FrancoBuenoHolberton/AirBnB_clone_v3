@@ -20,6 +20,7 @@ def all_users():
 
         return jsonify(ls)
 
+
 @app_views.route('/users/<user_id>',
                  methods=['GET'], strict_slashes=False)
 def get_user_by_id(user_id):
