@@ -36,13 +36,11 @@ def delete_amenity_by_id(amenity_id):
     """ delete a amenity object """
     if request.method == 'DELETE':
         am = storage.get(Amenity, amenity_id)
-        if am is None:
-            abort(404)
-        else:
+        if am is not None:
             storage.delete(am)
             storage.save()
             return jsonify({}), 200
-
+        abort(404)
 
 @app_views.route('/amenities', methods=['POST'], strict_slashes=False)
 def create_amenity():
@@ -55,7 +53,6 @@ def create_amenity():
 
         if 'name' not in req_name:
             return jsonify('Missing name'), 400
-
         am = Amenity(**req_name)
         am.save()
         return jsonify(am.to_dict()), 201
@@ -68,12 +65,12 @@ def update_amenity(amenity_id):
     if request.method == 'PUT':
         am = storage.get(Amenity, amenity_id)
         req = request.headers.get('Content-Type')
+        dic = ['id', 'created_at', 'updated_at']
         if req != 'application/json':
             return jsonify('Not a JSON'), 400
         req_name = request.get_json()
-        if am is not None:
-            if req_name('name') is None:
-                am.name = req_name['name']
-                am.save()
-                return jsonify(am.to_dict()), 200
-        abort(404)
+        for k, v in data.items():
+            if k not in req:
+                setattr(am, k, v)
+        storage.save()
+        return make_response(jsonify(amenity.to_dict()))
