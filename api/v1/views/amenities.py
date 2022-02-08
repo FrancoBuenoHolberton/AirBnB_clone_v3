@@ -47,13 +47,13 @@ def delete_amenity_by_id(amenity_id):
 def create_amenity():
     """ create Amenity """
     if request.method == 'POST':
-        req_name = request.get_json()
-        req = request.headers.get('Content-Type')
-        if req != 'application/json':
+        req_type = request.headers.get('Content-Type')
+        if req_type != 'application/json':
             return jsonify('Not a JSON'), 400
-        if "name" not in req_name:
+        req_name = request.get_json()
+        if 'name' not in req_name:
             return jsonify('Missing name'), 400
-        am = Amenity(**req_name)
+        am = Amenity(**dict_req_name)
         am.save()
         return jsonify(am.to_dict()), 201
 
