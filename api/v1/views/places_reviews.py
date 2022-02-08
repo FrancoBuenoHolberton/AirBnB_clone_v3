@@ -25,7 +25,7 @@ def all_reviews(place_id):
     return jsonify(ls)
 
 
-@app_views.route('/reviews/review_id>',
+@app_views.route('/reviews/<review_id>',
                  methods=['GET'], strict_slashes=False)
 def get_review(review_id):
     """ retrieve a review """
