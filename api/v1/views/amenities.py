@@ -43,7 +43,7 @@ def delete_amenity_by_id(amenity_id):
         abort(404)
 
 
-@app_views.route('/amenities', methods=['POST'], strict_slashes=False)
+@app_views.route('/amenities/', methods=['POST'], strict_slashes=False)
 def create_amenity():
     """ create Amenity """
     if request.method == 'POST':
@@ -51,8 +51,7 @@ def create_amenity():
         req = request.headers.get('Content-Type')
         if req != 'application/json':
             return jsonify('Not a JSON'), 400
-
-        if 'name' not in req_name:
+        if "name" not in req_name:
             return jsonify('Missing name'), 400
         am = Amenity(**req_name)
         am.save()
