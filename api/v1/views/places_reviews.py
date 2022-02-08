@@ -35,10 +35,11 @@ def get_review(review_id):
     """ retrieve a review """
 
     rev = storage.get(Review, review_id)
-
-    if rev is None:
+    if not rev:
         abort(404)
-    return jsonify(rev.to_dict())
+
+    if request.method == 'GET':
+        return jsonify(rev.to_dict())
 
 
 @app_views.route('/reviews/<string:review_id>',
@@ -60,32 +61,31 @@ def delete_review_by_id(review_id):
 def create_review(place_id):
     """ create review """
 
-    pl = storage.get(Place, place_id)
-
+    place = storage.get(Place, place_id)
     if not place:
         abort(404)
 
     if request.method == 'POST':
-        req_type = request.headers.get('Content-Type')
-        if (req_type != 'application/json'):
+        content_type = request.headers.get('Content-Type')
+        if (content_type != 'application/json'):
             return jsonify("Not a JSON"), 400
 
-    req_dict = request.get_json()
-    if "user_id" not in req_dict:
-        return jsonify("Missing user_id"), 400
+        revi_dic = request.get_json()
+        if "user_id" not in rev_dic:
+            return jsonify("Missing user_id"), 400
 
-    us = storage.get(User, review_dict["user_id"])
-    if not us:
-        abort(404)
+        user = storage.get(User, revi_dic["user_id"])
+        if not user:
+            abort(404)
 
-    if "text" not in review_dict:
-        return jsonify("Missing text"), 400
+        if "text" not in rev_dic:
+            return jsonify("Missing text"), 400
 
-    rev_n = Review(**req_dict)
-    rev_n.user_id = req_dict["user_id"]
-    rev_n.place_id = place_id
-    rev_n.save()
-    return jsonify(rev_n.to_dict()), 201
+        n_rev = Review(**rev_dic)
+        n_rev.user_id = rev_dic["user_id"]
+        n_rev.place_id = place_id
+        n_rev.save()
+        return jsonify(n_rev.to_dict()), 201
 
 
 @app_views.route('/reviews/<review_id>',
@@ -97,14 +97,18 @@ def update_review(review_id):
     if rev is None:
         abort(404)
 
-    req = request.get_json()
-    if (not rec):
-        abort(400, "Not a JSON")
+    if request.method == 'PUT':
 
-    for key, val in req.items():
-        if (key not in ["id", 'user_id', 'place_id',
-                        "created_at", "updated_at"]):
-            setattr(rev, key, val)
+        content_type = request.headers.get('Content-Type')
+        if (content_type != 'application/json'):
+            return jsonify("Not a JSON"), 400
 
-    re.save()
-    return make_response(jsonify(rev.to_dict()), 200)
+        review_dict = request.get_json()
+        try:
+            review.text = review_dict["text"]
+            storage.save()
+
+        except Exception as err:
+            print(err)
+
+        return jsonify(review.to_dict()), 200
