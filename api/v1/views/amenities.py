@@ -42,6 +42,7 @@ def delete_amenity_by_id(amenity_id):
             return jsonify({}), 200
         abort(404)
 
+
 @app_views.route('/amenities', methods=['POST'], strict_slashes=False)
 def create_amenity():
     """ create Amenity """
