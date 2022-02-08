@@ -10,7 +10,7 @@ from models import storage
 from flask import jsonify, abort, request, make_response
 
 
-@app_views.route('/places/<place_id>/reviews',
+@app_views.route('/places/<place_id>/amenities',
                  methods=['GET'])
 def all_reviews(place_id):
     """ retrieves the list all review """
@@ -29,7 +29,7 @@ def all_reviews(place_id):
         return jsonfy(ls)
 
 
-@app_views.route('/reviews/<review_id>',
+@app_views.route('/amenities/<amenity_id>',
                  methods=['GET'])
 def get_review(review_id):
     """ retrieve a review """
@@ -42,7 +42,7 @@ def get_review(review_id):
         return jsonify(rev.to_dict())
 
 
-@app_views.route('/reviews/<string:review_id>',
+@app_views.route('/place_id/<amenity_id>',
                  methods=['DELETE'], strict_slashes=False)
 def delete_review_by_id(review_id):
     """ delete review """
