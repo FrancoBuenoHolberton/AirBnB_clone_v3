@@ -11,6 +11,7 @@ from flask import jsonify, abort, request, make_response
 @app_views.route('/amenities/', methods=['GET'], strict_slashes=False)
 def all_my_amenities():
     """ list of all Amenity objects: GET /api/v1/amenities """
+
     if request.method == 'GET':
         am = storage.all(Amenity).values()
         ls = []
@@ -23,6 +24,7 @@ def all_my_amenities():
                  methods=['GET'], strict_slashes=False)
 def get_amenity(amenity_id):
     """ retrive amenity object """
+
     if request.method == 'GET':
         am = storage.get(Amenity, amenity_id)
         if am is not None:
@@ -46,6 +48,7 @@ def delete_amenity_by_id(amenity_id):
 @app_views.route('/amenities/', methods=['POST'], strict_slashes=False)
 def create_amenity():
     """ create Amenity """
+
     if request.method == 'POST':
         req_type = request.headers.get('Content-Type')
         if req_type != 'application/json':
@@ -62,6 +65,7 @@ def create_amenity():
                  methods=['PUT'], strict_slashes=False)
 def update_amenity(amenity_id):
     """ update amenity """
+
     if request.method == 'PUT':
         am = storage.get(Amenity, amenity_id)
         req = request.headers.get('Content-Type')
@@ -73,3 +77,4 @@ def update_amenity(amenity_id):
                 am.name = req_two['name']
                 am.save()
                 return jsonify(am.to_dict()), 200
+        abort(404)
