@@ -16,13 +16,17 @@ def all_reviews(place_id):
     """ retrieves the list all review """
 
     pl = storage.get(Place, place_id)
-    if place is None:
+    if not pl:
         abort(404)
 
-    ls = []
-    for rev in pl.reviews:
-        ls.append(review.to_dict())
-    return jsonify(ls)
+    if request.method == 'GET':
+        req = storage.all(Review).values()
+        ls = []
+        for re in req:
+            if re.place_id == place_id:
+                ls.append(re.to_dict())
+
+        return jsonfy(ls)
 
 
 @app_views.route('/reviews/<review_id>',
