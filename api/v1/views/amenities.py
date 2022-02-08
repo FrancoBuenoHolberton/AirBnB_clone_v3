@@ -53,7 +53,7 @@ def create_amenity():
         req_name = request.get_json()
         if 'name' not in req_name:
             return jsonify('Missing name'), 400
-        am = Amenity(**dict_req_name)
+        am = Amenity(**req_name)
         am.save()
         return jsonify(am.to_dict()), 201
 
